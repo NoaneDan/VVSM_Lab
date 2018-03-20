@@ -1,13 +1,17 @@
-package Prj_3_ElectricaAdmin_MV;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+
+import java.io.BufferedWriter;
+import repository.DataManager;
+import controller.ClientController;
+import ui.ElectricaUI;
+
+public class App {
+	public static void main(String[] args) {
+		DataManager repo = new DataManager();
+		
+		ClientController ctrl = new ClientController();
+		
+		ElectricaUI console = new ElectricaUI(ctrl);
+		console.Run();
+	}
 }
