@@ -1,4 +1,4 @@
-package controller;
+package Prj_3_ElectricaAdmin_MV.controller;
 
 import java.util.ArrayList;
 
