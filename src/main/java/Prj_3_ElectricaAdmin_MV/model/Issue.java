@@ -35,23 +35,30 @@ public class Issue {
     
     @Override
     public String toString(){
-        String r = String.format("%s" + System.getProperty("line.separator") + "%d, %d, %2.0f, %2.0f", 
+        return String.format("%s" + System.getProperty("line.separator") + "%d, %d, %2.0f, %2.0f",
                 this.Client.toString(), this.Year, this.Month, this.ToPay, this.Paid);
-        return r;
     }
     
     @Override 
-    public boolean equals(Object object){
-        if(object == null) return false;
-        if(!(object instanceof Issue)) return false;
-        Issue i = (Issue)object;
-        if(i.Client == null) return false;
-        if((i.Month == this.Month) && (i.Year == this.Year) && (i.Client.equals(this.Client))) return true;
-        return false;
+    public boolean equals(Object object) {
+
+        if (object == null) {
+            return false;
+        }
+
+        if (!(object instanceof Issue)) {
+            return false;
+        }
+
+        Issue i = (Issue) object;
+
+        return i.Client != null && (i.Month == this.Month) && (i.Year == this.Year) && (i.Client.equals(this.Client));
+
     }
 
     @Override
     public int hashCode() {
+
         int hash = 3;
         hash = 71 * hash + Objects.hashCode(this.Client);
         hash = 71 * hash + this.Year;

@@ -4,8 +4,6 @@ import Prj_3_ElectricaAdmin_MV.model.Client;
 import Prj_3_ElectricaAdmin_MV.model.Issue;
 import Prj_3_ElectricaAdmin_MV.repository.DataManager;
 
-import java.util.ArrayList;
-
 
 public class ClientController {
 	private DataManager _dataManager;
@@ -15,57 +13,70 @@ public class ClientController {
     }
     
     private String ValidateClient(String name, String address, String id){
+
         if(!name.equals("") && !address.equals("") && !name.equals(" ")){
-            for(int i=0;i<name.length();i++){
-                if((!Character.isUpperCase(name.charAt(i))) && (!Character.isLowerCase(name.charAt(i))) && (!Character.isSpaceChar(name.charAt(i)))){
+            for(int i=0; i<name.length(); i++){
+                if(!Character.isUpperCase(name.charAt(i)) && !Character.isLowerCase(name.charAt(i)) && !Character.isSpaceChar(name.charAt(i))) {
                     return "Invalid character: " + name.charAt(i);
                 }
             }
             return null;
-        }else{
+        }
+        else {
             return "Name or address cannot be empty!";
         }
     }
     
     public String AddClient(String name, String address, String id){
+
         //validation
         String valid;
         if((valid = ValidateClient(name, address,id)) != null){
             return valid;
         }
+
         Client c = new Client(name, address,id);
+
         //uniqueness
-        for(int j=0; j<_dataManager.Clients.size(); j++){
+        for(int j=0; j < _dataManager.Clients.size(); j++){
             if(_dataManager.Clients.get(j).equals(c)){
                 return "Client already exists!";
             }
         }
-        try{
+
+        try {
             _dataManager.Clients.add(c);
             _dataManager.SaveChanges();
             return null;
-        }catch(Exception ex){
+        }
+        catch(Exception ex) {
             return ex.getMessage();
         }
     }
     
     public String AddClientIndex(Client c, int year, int month, float toPay){
+
         if(year > 0){
             if(month > 0){
                 if(toPay >= 0){
+
                     //validate client attributes
                     String valid;
+
                     if((valid = ValidateClient(c.Name, c.Address, c.idClient)) == null){
                         //check if client exist
                         Boolean exist = false;
+
                         for(int i=0; i<_dataManager.Clients.size(); i++){
                             if(_dataManager.Clients.get(i).equals(c)){
                                 exist = true;
                                 break;
                             }
                         }
-                        if(exist){
+
+                        if(exist) {
                             Issue i = new Issue(c, year, month, toPay, 0);
+
                             //uniqueness
                             for(int j=0; j<_dataManager.Issues.size(); j++){
                                 if(_dataManager.Issues.get(j).equals(i)){
@@ -75,36 +86,51 @@ public class ClientController {
                         
                             _dataManager.Issues.add(i);
                             _dataManager.SaveChanges();
+
                             return null;
-                        }else{
+                        }
+                        else {
                             return "Client does not exist!";
                         }
-                    }else{
+                    }
+                    else {
                         return valid;
                     }
-                }else{
+                }
+                else {
                     return "Money to pay can't be less than 0!";
                 }
-            }else{
+            }
+            else {
                 return "Month can't be 0 or less!";
             }
-        }else{
+        }
+        else {
             return "Year can't be 0 or less!";
         }
     }
     
     public String ListIssue(Client c){
-        String s = "";
+
+        StringBuilder s = new StringBuilder();
         String pen = "";
+
         Double total = 0.0;
-        Issue last = null, beforeLast;       
+
         for(int i=0; i<_dataManager.Issues.size(); i++){
-        	if(_dataManager.Issues.get(i).Client.equals(c)){
-            	 pen += String.format("Year: %d, Month: %d, Penalty: %2.0f\n");
-            	 s += pen;
+            Issue issue = _dataManager.Issues.get(i);
+
+            if(issue.Client.equals(c)){
+            	 pen += String.format("Year: %d, Month: %d, To pay: %2.0f, Paid: %2.0f\n", issue.Year, issue.Month, issue.ToPay, issue.Paid);
+            	 s.append(pen);
+
+            	 total += issue.ToPay - issue.Paid;
         	}            
-        }  
-        return s;
+        }
+
+        s.append(String.format("Total left to pay: %2.0f", total));
+
+        return s.toString();
     }
     
 }

@@ -4,14 +4,13 @@ package Prj_3_ElectricaAdmin_MV.ui;
 import Prj_3_ElectricaAdmin_MV.controller.ClientController;
 import Prj_3_ElectricaAdmin_MV.model.Client;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
 public class ElectricaUI {
-	public ClientController ctrl;
-	Scanner in;
+
+	private ClientController ctrl;
+	private Scanner in;
 	
 	public ElectricaUI(ClientController ctrl)
 	{
@@ -19,27 +18,7 @@ public class ElectricaUI {
 		this.in=new Scanner(System.in);
 	}
 	
-	public ClientController getCtrl()
-	{
-		return this.ctrl;
-	}
-	
-	public Scanner getIn()
-	{
-		return this.in;
-	}
-	
-	public void setCtrl(ClientController newCtrl)
-	{
-		this.ctrl=newCtrl;
-	}
-	
-	public void setIn(Scanner newIn)
-	{
-		this.in=newIn;
-	}
-	
-	public void printMenu()
+	private void printMenu()
 	{
 		String menu;
 		menu="Electrica Admin Menu: \n";
@@ -84,18 +63,16 @@ public class ElectricaUI {
 				String address = in.nextLine();
 				System.out.println("Enter id:");
 				String id = in.nextLine();			
-				Client c= new Client(name, address, id);
-										
-				
-				
-				
+
+				Client c = new Client(name, address, id);
+
+
 				System.out.println("Enter the YEAR:");
 				String yearS = in.nextLine();
 				int year=Integer.parseInt(yearS);
 				System.out.println("Enter the MONTH:");
 				String monthS = in.nextLine();
 				int month=Integer.parseInt(monthS);
-				
 				System.out.println("Enter toPay:");
 				String sumToPayS = in.nextLine();
 				float sumToPay=Float.parseFloat(sumToPayS);
@@ -113,11 +90,10 @@ public class ElectricaUI {
 				String address = in.nextLine();
 				System.out.println("Enter id:");
 				String id = in.nextLine();			
-				Client c= new Client(name, address, id);
-										
-				
-				ctrl.ListIssue(c);				
-				
+
+				Client c = new Client(name, address, id);
+
+				System.out.println(ctrl.ListIssue(c));
 			}
 
 			printMenu();
