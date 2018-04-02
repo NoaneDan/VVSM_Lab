@@ -12,5 +12,7 @@ public class ClientControllerTest extends TestCase {
     }
 
     public void testAddClient() {
+
+        assertEquals(1, 1);
     }
 }
