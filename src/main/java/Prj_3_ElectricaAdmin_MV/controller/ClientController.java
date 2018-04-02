@@ -1,9 +1,11 @@
 package Prj_3_ElectricaAdmin_MV.controller;
 
+import Prj_3_ElectricaAdmin_MV.model.Client;
+import Prj_3_ElectricaAdmin_MV.model.Issue;
+import Prj_3_ElectricaAdmin_MV.repository.DataManager;
+
 import java.util.ArrayList;
 
-import repository.DataManager;
-import model.*;
 
 public class ClientController {
 	private DataManager _dataManager;

@@ -1,4 +1,4 @@
-package repository;
+package Prj_3_ElectricaAdmin_MV.repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import model.*;
+import Prj_3_ElectricaAdmin_MV.model.Client;
+import Prj_3_ElectricaAdmin_MV.model.Issue;
 
 public class DataManager {
 	private final static String fileClient = "client.txt";

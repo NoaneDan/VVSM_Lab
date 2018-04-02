@@ -1,9 +1,8 @@
+package Prj_3_ElectricaAdmin_MV;
 
-
-import java.io.BufferedWriter;
-import repository.DataManager;
-import controller.ClientController;
-import ui.ElectricaUI;
+import Prj_3_ElectricaAdmin_MV.controller.ClientController;
+import Prj_3_ElectricaAdmin_MV.repository.DataManager;
+import Prj_3_ElectricaAdmin_MV.ui.ElectricaUI;
 
 public class App {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package model;
+package Prj_3_ElectricaAdmin_MV.model;
 
 import java.util.Objects;
 

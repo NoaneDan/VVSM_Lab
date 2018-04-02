@@ -1,11 +1,13 @@
-package ui;
+package Prj_3_ElectricaAdmin_MV.ui;
+
+
+import Prj_3_ElectricaAdmin_MV.controller.ClientController;
+import Prj_3_ElectricaAdmin_MV.model.Client;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.*;
-import controller.ClientController;;
 
 public class ElectricaUI {
 	public ClientController ctrl;
