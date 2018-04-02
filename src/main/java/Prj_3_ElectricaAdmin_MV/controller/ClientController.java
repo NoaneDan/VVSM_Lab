@@ -6,24 +6,35 @@ import Prj_3_ElectricaAdmin_MV.repository.DataManager;
 
 
 public class ClientController {
-	private DataManager _dataManager;
+
+    private DataManager _dataManager;
     
-    public ClientController(){
-        _dataManager = new DataManager();
+    public ClientController(DataManager _dataManager){
+
+        this._dataManager = _dataManager;
     }
     
     private String ValidateClient(String name, String address, String id){
 
-        if(!name.equals("") && !address.equals("") && !name.equals(" ")){
+        if(!name.equals("") && !address.equals("") && !id.equals("")){
+            if (name.length() > 256) {
+                return "Name length is over 256 characters!";
+            }
+
+            if (!address.matches("(\\d)+,(\\s)?(\\w)+,(\\s)?(\\w)+")) {
+                return "Invalid address!";
+            }
+
             for(int i=0; i<name.length(); i++){
                 if(!Character.isUpperCase(name.charAt(i)) && !Character.isLowerCase(name.charAt(i)) && !Character.isSpaceChar(name.charAt(i))) {
                     return "Invalid character: " + name.charAt(i);
                 }
             }
+
             return null;
         }
         else {
-            return "Name or address cannot be empty!";
+            return "Name, address or id cannot be empty!";
         }
     }
     

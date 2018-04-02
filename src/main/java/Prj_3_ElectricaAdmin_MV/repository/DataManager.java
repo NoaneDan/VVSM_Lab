@@ -12,8 +12,8 @@ import Prj_3_ElectricaAdmin_MV.model.Issue;
 
 public class DataManager {
 
-    private final static String fileClient = "client.txt";
-    private final static String fileIssue = "issue.txt";
+    private String fileClient = "client.txt";
+    private String fileIssue = "issue.txt";
     public ArrayList<Client> Clients;
     public ArrayList<Issue> Issues;
     
@@ -21,6 +21,18 @@ public class DataManager {
         Clients = new ArrayList<>();
         Issues = new ArrayList<>();
         
+        LoadClient();
+        LoadIssues();
+    }
+
+    public DataManager(String fileClient, String fileIssue) {
+
+        this.fileClient = fileClient;
+        this.fileIssue = fileIssue;
+
+        Clients = new ArrayList<>();
+        Issues = new ArrayList<>();
+
         LoadClient();
         LoadIssues();
     }
@@ -44,7 +56,7 @@ public class DataManager {
             }
 
             br.close();
-        }catch(Exception ex){
+        }catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
     }
