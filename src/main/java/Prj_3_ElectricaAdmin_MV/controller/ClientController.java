@@ -64,49 +64,13 @@ public class ClientController {
             return ex.getMessage();
         }
     }
-    
-    public String AddClientIndex(Client c, int year, int month, float toPay){
 
-        if(year > 0){
-            if(month > 0){
-                if(toPay >= 0){
+    private String ValidateIndex(int year, int month, float toPay) {
 
-                    //validate client attributes
-                    String valid;
-
-                    if((valid = ValidateClient(c.Name, c.Address, c.idClient)) == null){
-                        //check if client exist
-                        Boolean exist = false;
-
-                        for(int i=0; i<_dataManager.Clients.size(); i++){
-                            if(_dataManager.Clients.get(i).equals(c)){
-                                exist = true;
-                                break;
-                            }
-                        }
-
-                        if(exist) {
-                            Issue i = new Issue(c, year, month, toPay, 0);
-
-                            //uniqueness
-                            for(int j=0; j<_dataManager.Issues.size(); j++){
-                                if(_dataManager.Issues.get(j).equals(i)){
-                                    return "Monthly index already exists!";
-                                }
-                            }
-                        
-                            _dataManager.Issues.add(i);
-                            _dataManager.SaveChanges();
-
-                            return null;
-                        }
-                        else {
-                            return "Client does not exist!";
-                        }
-                    }
-                    else {
-                        return valid;
-                    }
+        if(year > 0) {
+            if (month > 0) {
+                if (toPay >= 0) {
+                    return null;
                 }
                 else {
                     return "Money to pay can't be less than 0!";
@@ -120,8 +84,71 @@ public class ClientController {
             return "Year can't be 0 or less!";
         }
     }
+
+    private boolean ClientExists(Client c) {
+
+        Boolean exist = false;
+
+        for(int i=0; i<_dataManager.Clients.size(); i++){
+            if(_dataManager.Clients.get(i).equals(c)){
+                exist = true;
+                break;
+            }
+        }
+
+        return exist;
+    }
+
+
+    private String MonthlyIndexExists(Issue i) {
+
+        for(int j=0; j<_dataManager.Issues.size(); j++){
+            if(_dataManager.Issues.get(j).equals(i)){
+                return "Monthly index already exists!";
+            }
+        }
+
+        return null;
+    }
+
+
+    public String AddClientIndex(Client c, int year, int month, float toPay) {
+
+        String validIndex = ValidateIndex(year, month, toPay);
+        if (validIndex == null) {
+            //validate client attributes
+            String validClient = ValidateClient(c.Name, c.Address, c.idClient);
+
+            if(validClient == null){
+                //check if client exist
+                if(ClientExists(c)) {
+                    Issue i = new Issue(c, year, month, toPay, 0);
+
+                    //uniqueness
+                    String uniqueIndex = MonthlyIndexExists(i);
+                    if (uniqueIndex != null) {
+                        return uniqueIndex;
+                    }
+
+                    _dataManager.Issues.add(i);
+                    _dataManager.SaveChanges();
+
+                    return null;
+                }
+                else {
+                    return "Client does not exist!";
+                }
+            }
+            else {
+                return validClient;
+            }
+        }
+        else {
+            return validIndex;
+        }
+    }
     
-    public String ListIssue(Client c){
+    public String ListIssue(Client c) {
 
         StringBuilder s = new StringBuilder();
         String pen = "";

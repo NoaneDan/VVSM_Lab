@@ -1,6 +1,7 @@
 package Prj_3_ElectricaAdmin_MV.controller;
 
 import Prj_3_ElectricaAdmin_MV.model.Client;
+import Prj_3_ElectricaAdmin_MV.model.Issue;
 import Prj_3_ElectricaAdmin_MV.repository.DataManager;
 import junit.framework.TestCase;
 
@@ -104,5 +105,35 @@ public class ClientControllerTest extends TestCase {
 
         assertNotNull(result);
         assertEquals(dataManager.Clients.size(), 0);
+    }
+
+    public void testAddIndex() {
+
+        controller.AddClient("ion", "8, Alee, Cluj", "0");
+        Client c = new Client("ion", "8, Alee, Cluj", "0");
+
+        String result = controller.AddClientIndex(c, 2018, 4, 200);
+
+        assertNull(result);
+        assertEquals(dataManager.Issues.size(), 1);
+
+        Issue i = dataManager.Issues.get(dataManager.Issues.size() - 1);
+        assertEquals(i.Year, 2018);
+        assertEquals(i.Month, 4);
+        assertEquals((double) i.ToPay, (double) 200);
+        assertEquals(i.Client, c);
+    }
+
+    public void testAddIndex_IndexExists() {
+
+        controller.AddClient("ion", "8, Alee, Cluj", "0");
+        Client c = new Client("ion", "8, Alee, Cluj", "0");
+
+        String result1 = controller.AddClientIndex(c, 2018, 4, 200);
+        String result2 = controller.AddClientIndex(c, 2018, 4, 200);
+
+        assertNull(result1);
+        assertNotNull(result2);
+        assertEquals(dataManager.Issues.size(), 1);
     }
 }
