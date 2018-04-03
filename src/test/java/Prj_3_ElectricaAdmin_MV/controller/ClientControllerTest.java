@@ -81,8 +81,7 @@ public class ClientControllerTest extends TestCase {
 
     public void testAddClient_InvalidAddress() {
 
-        String result = controller.AddClient("ion",
-                "abc", "0");
+        String result = controller.AddClient("ion", "abc", "0");
 
         assertNotNull(result);
         assertEquals(dataManager.Clients.size(), 0);
@@ -97,5 +96,13 @@ public class ClientControllerTest extends TestCase {
         assertNotNull(result2);
 
         assertEquals(dataManager.Clients.size(), 1);
+    }
+
+    public void testAddClient_InvalidName() {
+
+        String result = controller.AddClient("2124afasd@!", "", "0");
+
+        assertNotNull(result);
+        assertEquals(dataManager.Clients.size(), 0);
     }
 }
