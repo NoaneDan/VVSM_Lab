@@ -100,16 +100,16 @@ public class ClientController {
     }
 
 
-    private String MonthlyIndexExists(Issue i) {
-
-        for(int j=0; j<_dataManager.Issues.size(); j++){
-            if(_dataManager.Issues.get(j).equals(i)){
-                return "Monthly index already exists!";
-            }
-        }
-
-        return null;
-    }
+//    private String MonthlyIndexExists(Issue i) {
+//
+//        for(int j=0; j<_dataManager.Issues.size(); j++){
+//            if(_dataManager.Issues.get(j).equals(i)){
+//                return "Monthly index already exists!";
+//            }
+//        }
+//
+//        return null;
+//    }
 
 
     public String AddClientIndex(Client c, int year, int month, float toPay) {
@@ -125,7 +125,13 @@ public class ClientController {
                     Issue i = new Issue(c, year, month, toPay, 0);
 
                     //uniqueness
-                    String uniqueIndex = MonthlyIndexExists(i);
+                    String uniqueIndex = null;
+                    for(int j=0; j<_dataManager.Issues.size(); j++){
+                        if(_dataManager.Issues.get(j).equals(i)){
+                            uniqueIndex = "Monthly index already exists!";
+                        }
+                    }
+
                     if (uniqueIndex != null) {
                         return uniqueIndex;
                     }

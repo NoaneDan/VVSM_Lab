@@ -112,10 +112,12 @@ public class ClientControllerTest extends TestCase {
         controller.AddClient("ion", "8, Alee, Cluj", "0");
         Client c = new Client("ion", "8, Alee, Cluj", "0");
 
-        String result = controller.AddClientIndex(c, 2018, 4, 200);
+        String result1 = controller.AddClientIndex(c, 2018, 5, 200);
+        String result2 = controller.AddClientIndex(c, 2018, 4, 200);
 
-        assertNull(result);
-        assertEquals(dataManager.Issues.size(), 1);
+        assertNull(result1);
+        assertNull(result2);
+        assertEquals(dataManager.Issues.size(), 2);
 
         Issue i = dataManager.Issues.get(dataManager.Issues.size() - 1);
         assertEquals(i.Year, 2018);
@@ -135,5 +137,61 @@ public class ClientControllerTest extends TestCase {
         assertNull(result1);
         assertNotNull(result2);
         assertEquals(dataManager.Issues.size(), 1);
+    }
+
+    public void testAddIndex_FirstIndex() {
+
+        controller.AddClient("ion", "8, Alee, Cluj", "0");
+        Client c = new Client("ion", "8, Alee, Cluj", "0");
+
+        String result = controller.AddClientIndex(c, 2018, 5, 200);
+
+        assertNull(result);
+        assertEquals(dataManager.Issues.size(), 1);
+
+        Issue i = dataManager.Issues.get(dataManager.Issues.size() - 1);
+        assertEquals(i.Year, 2018);
+        assertEquals(i.Month, 5);
+        assertEquals((double) i.ToPay, (double) 200);
+        assertEquals(i.Client, c);
+    }
+
+    public void testAddIndex_NoClient() {
+
+        Client c = new Client("ion", "8, Alee, Cluj", "0");
+
+        String result = controller.AddClientIndex(c, 2018, 5, 200);
+
+        assertNotNull(result);
+        assertEquals(dataManager.Issues.size(), 0);
+    }
+
+    public void testAddIndex_InvalidClient() {
+
+        controller.AddClient("ion", "8, Alee, Cluj", "0");
+        Client c = new Client("23ion", "8, Alee, Cluj", "0");
+
+        String result = controller.AddClientIndex(c, 2018, 5, 200);
+
+        assertNotNull(result);
+        assertEquals(dataManager.Issues.size(), 0);
+    }
+
+    public void testAddIndex_InvalidIndex() {
+
+        controller.AddClient("ion", "8, Alee, Cluj", "0");
+        Client c = new Client("ion", "8, Alee, Cluj", "0");
+
+        String result = controller.AddClientIndex(c, -2018, 5, 200);
+        assertNotNull(result);
+        assertEquals(dataManager.Issues.size(), 0);
+
+        String result2 = controller.AddClientIndex(c, 2018, -5, 200);
+        assertNotNull(result2);
+        assertEquals(dataManager.Issues.size(), 0);
+
+        String result3 = controller.AddClientIndex(c, 2018, 5, -200);
+        assertNotNull(result3);
+        assertEquals(dataManager.Issues.size(), 0);
     }
 }
