@@ -118,5 +118,6 @@ public class AppTest
         testA();
         testB();
         testC();
+        assertTrue(true);
     }
 }
