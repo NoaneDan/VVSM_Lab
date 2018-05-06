@@ -79,7 +79,7 @@ public class BigBangTest extends TestCase {
         assertNotNull(result);
     }
 
-    public void bigBangTesting() {
+    public void test_BigBang() {
 
         testA();
         testB();
